@@ -21,7 +21,18 @@ int insertion_sort(int a[5],int i,int j){
 	}
 	cout<<endl;
 }
-
+/*
+int FirstQuickSort(int a[5],int i, int j){
+	if(j-i>=2){
+		int pivot=a[0];
+		for(int b=0;b<=j;b++){
+			if(a[b]<pivot){
+			
+		}
+	}
+	
+}
+*/
 int main(){
 	int a[5] = {29, 92, 38, 48, 11};
 	insertion_sort(a,0,6);
