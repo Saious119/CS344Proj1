@@ -24,46 +24,58 @@ int insertion_sort(int a[5],int i,int j){
 /*
 //Partition does 1 scan of the array? A questionable question.
 template <class T>
-void partition(T a[], int start, int stop, int & pivot) {
-	std::swap(a[pivot], a[start]);
+int partition(T a[], int start, int stop, int pivot) {
+	std::swap( a[pivot], a[start] );
 		// moves pivot to start
-	T ∗ temp = new T[stop − start];
+    int reasons = stop - start;
+    T * temp = new T [reasons];
+
 	int k = 0; // next available position in temp
+	int y = 1; // for decrementing things
 	for (int i = start + 1; i < stop; ++i) {
 		if (a[i] < a[start]) {
 			temp[k] = a[i];
+cout << "k: " << k << " " << temp[k] << endl;
 			++k;
-		} else if (!a[i] < a[start]) {
-			break;
+		} else if ((a[i] >= a[start])) {
+			temp[reasons -y] = a[i];
+cout << "r-y: " << reasons-y << " " << temp[reasons-y] << endl;
+			++y;
 		}
-	}		
+	}
 	temp[k] = a[start]; // pivot
-	pivot = start + k; // final index in a
-	++k;
-	for (int i = pivot; i < stop; ++i)
-		if (!(a[i] < a[start])){
-			temp[k] = a[i];
-			++k;
-		}
-	std::copy(temp, temp + k, a + start);
+cout << "pivot: " << k << " " << temp[k] << endl;
+cout << k << " " << y << endl;
+	std::copy( temp, temp + k, a + start );
 	delete temp;
+	return( k );
 }
 
 template <class T>
-void FirstQuickSort(T a[5],int i, int j){
+void FirstQuickSort(T a[], int i, int j ){
 	if(j-i>=2){
-		T pivot=a[0];
-		partition( a, i, j, pivot );
-		
-		
-		
-		for(int b=1;b<=j;++b){
-			if(a[b]<pivot){
-				
-			
-		}
+		int pivot = i;
+		int pi = partition( a, i, j, pivot );
+		FirstQuickSort( a, i, (pi - 1) );
+		FirstQuickSort( a, (pi+1), j );
 	}
-	
+
+}
+
+int main(){
+	int a[6] = {29, 92, 38, 48, 11, 10};
+
+	std::cout << "Original: " << std::endl;
+	for( int i = 0; i < 6; ++i )
+        std::cout << a[i] << " ";
+    cout << std::endl;
+	FirstQuickSort( a, 0, 6 );
+	std::cout << "fQS: " << std::endl;
+	for( int i = 0; i < 6; ++i )
+        std::cout << a[i] << " ";
+    cout << std::endl;
+
+	return 0;
 }
 */
 int main(){
