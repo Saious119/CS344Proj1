@@ -36,31 +36,48 @@ int FirstQuickSort(int a[5],int i, int j){
 
 template <class T>
 void partition(T a[], int start, int stop, int & pivot) {
-	std::swap(a[pivot], a[start]);
+	//std::swap(a[pivot], a[start]);
 		//puts pivot in fist position
 	T * temp = new T[stop - start];
 	int k = 0;
-	for (int i = start + 1; i < stop; ++i)
+	int e = stop-1;
+	int b =0;
+	for (int i = start+1; i < stop; ++i){
 		if (a[i] < a[start]) {
 			temp[k] = a[i];
 			++k;
+			++b;
 		}
+		else{
+			temp[e] = a[i];
+			--e;
+			++b;
+		}
+	}
 	temp[k] = a[start];
 	pivot = start + k;
 	++k;
+	++b;
+	/*
 	for (int i = start + 1; i < stop; ++i)
 		if (!(a[i] < a[start])){
 			temp[k] = a[i];
 			++k;
 		}
-	std::copy(temp, temp + k, a + start);
+		*/
+	std::copy(temp, temp +b , a+start);
 	delete temp;
 }
 
 template <class T>
 void quicksort (T a[], int start, int stop) {
 	if (stop - start > 1) {
-		int pivot = a[start];
+		int pivot = start;
+		cout<<"a is now ";
+		for(int i=start;i<stop;i++){
+			cout<<a[i]<<" ";
+		}
+		cout<<endl;
 		partition(a, start, stop, pivot);
 		quicksort(a, start, pivot);
 		quicksort(a, pivot + 1, stop);
@@ -68,7 +85,12 @@ void quicksort (T a[], int start, int stop) {
 }
 
 int main(){
-	int a[5] = {29, 92, 38, 48, 11};
-	insertion_sort(a,0,6);
+	int a[10] = {29, 92, 38, 48, 11,7,102,86,2,15};
+	//insertion_sort(a,0,6);
+	quicksort(a,0,10);
+	for(int i=0;i<10;i++){
+		cout<<" "<<a[i]<<" ";
+	}
+	cout<<endl;
 	return 0;	
 }
