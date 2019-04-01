@@ -60,7 +60,7 @@ void partition(T a[], int start, int stop, int & pivot) {
 template <class T>
 void quicksort (T a[], int start, int stop) {
 	if (stop - start > 1) {
-		int pivot = a[start];
+		int pivot = start;
 		partition(a, start, stop, pivot);
 		quicksort(a, start, pivot);
 		quicksort(a, pivot + 1, stop);
@@ -68,7 +68,11 @@ void quicksort (T a[], int start, int stop) {
 }
 
 int main(){
-	int a[5] = {29, 92, 38, 48, 11};
-	insertion_sort(a,0,6);
+	int a[6] = {99, 92, 38, 15, 11, 52};
+	//insertion_sort(a,0,6);
+	quicksort (a, 0, 6);
+	for(int i = 0; i < 6; i++) {
+		cout << " " <<  a[i];
+	}
 	return 0;	
 }
