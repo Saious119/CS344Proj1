@@ -4,6 +4,7 @@
 
 #include<iostream>
 #include<vector>
+#include<cstdlib>
 
 using namespace std;
 int insertion_sort(int a[5],int i,int j){
@@ -41,11 +42,20 @@ void partition(T a[], int start, int stop, int & pivot) {
 			--e;
 			++b;
 		}
+		for( int i = start; i < stop; i++ ) {
+			cout << temp[i] << " ";
+		}
+		cout << "BREAK" << endl;
 	}
 	temp[k] = a[start];
 	pivot = start + k;
-	++k;
+	//++k;
 	++b;
+	for( int i = start; i < stop; i++ ) {
+			cout << temp[i] << " ";
+		}
+		cout << "it done been yeeted" << endl;
+	
 	std::copy(temp, temp + b, a + start);
 	delete temp;
 }
@@ -53,16 +63,26 @@ void partition(T a[], int start, int stop, int & pivot) {
 template <class T>
 void quicksort (T a[], int start, int stop) {
 	if (stop - start > 1) {
-		int pivot = start;
+		//int pivot = start + 1;
+		srand(time(NULL));
+		int pivot = rand() % ( stop - start ) + start;
+		cout << start  << endl;
+		cout << "This shit be the pivot = " << pivot << endl;
 		partition(a, start, stop, pivot);
+		cout << endl;
 		quicksort(a, start, pivot);
 		quicksort(a, pivot + 1, stop);
 	}
 }
 
 int main(){
-	int a[5] = {99, 92, 38, 11, 52};
+	int a[5] = {52, 92, 102, 11, 99};
 	//insertion_sort(a,0,6);
+	for(int i = 0; i < 5; i++) {
+		cout << " " <<  a[i];
+	}
+	cout << endl;
+
 	quicksort (a, 0, 5);
 	for(int i = 0; i < 5; i++) {
 		cout << " " <<  a[i];
