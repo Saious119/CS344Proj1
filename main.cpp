@@ -5,6 +5,7 @@
 #include<iostream>
 #include<vector>
 #include<cstdlib>
+#include<algorithm>
 
 using namespace std;
 
@@ -113,17 +114,56 @@ void quicksort (T a[], int start, int stop) {
 	}
 }
 
+template <class T>
+void mergesort(T a[], int start, int stop) {
+	if (stop - start > 1) {
+		int middle = (start + stop) / 2;
+
+		mergesort(a, start, middle);
+		mergesort(a, middle, stop);
+
+		std::inplace_merge(a + start, a + middle, a + stop);
+	}
+}
+
+template <class T>
+void merge(T a[], int start, int middle, int stop) {
+	int i1 = start;
+
+	int i2 = middle;
+
+	T * result = new T[stop - start];
+
+	int j = 0;
+	
+	while (i1 < middle && i2 < stop) {
+		if (a[i1] < a[i2]) {
+			result[j] = a[i1];
+			++i1;
+		} else {
+			result[j] = a[i2];
+			++i2;
+		}
+		++j;
+	}
+	delete [] result;
+}
+
+template <class T>
+void selection_sort(T a[], int start, int stop) {
+	while (stop - start > 1) {
+		auto itr_max = std::max_element(a + start, a + stop);
+		std::swap(*itr_max, a[stop-1]);
+		--stop;
+	}
+}
+
 int main(){
 	int a[5] = {52, 92, 102, 11, 99};
-	//insertion_sort(a,0,6);
+	
 	for(int i = 0; i < 5; i++) {
 		cout << " " <<  a[i];
 	}
 	cout << endl;
-
-	quicksort (a, 0, 5);
-	for(int i = 0; i < 5; i++) {
-		cout << " " <<  a[i];
-	}
-	return 0;	
+	return 0;
 }
