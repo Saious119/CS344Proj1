@@ -11,11 +11,12 @@ using namespace std;
 
 class Integer{
 public:
-	void defaultConstructor(){ 
-		this->Integer_value =0;
+	Integer() {
+		Integer_value = 0;
 	}
-	void IntegerConstructor(int x){
-		this->Integer_value=x;
+
+	Integer(int a) {
+		Integer_value = a;
 	}
 	void copy(Integer Other){
 		this->Integer_value=Other.Integer_value;
