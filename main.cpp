@@ -9,7 +9,13 @@
 
 using namespace std;
 
+int n = 10000;
+
 class Integer{
+private:
+	mutable int Integer_count = 0;
+	int Integer_value;
+
 public:
 	Integer() {
 		Integer_value = 0;
@@ -22,50 +28,43 @@ public:
 		this->Integer_value=Other.Integer_value;
 		this->Integer_count++;
 	}
+	int get() {
+		return Integer_count;
+	}
 	const int value(){
 		return this->Integer_value;
 	}
-	void increment(){
-		this ->Integer_count++;
-	}
-	bool operator<(const Integer & y)const{
-		//IntegerConstructor((Integer_count)+1);
-		//Integer_count++;
-		//this->increment();
-		//const int yval=y.value();
-		if(Integer_value<y.Integer_value){return true;}
-		else{return false;}
+	bool operator<(const Integer & y) const {
+		Integer_count++;
+		if (Integer_value < y.Integer_value) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	Integer& operator =(Integer& y){
-		//this->Integer_count++;
-		//this->value()=y.value();
 		this->copy(y);
 	}
-
-private:
-	int Integer_count = 0;
-	int Integer_value;
 };
 
-int insertion_sort(int a[5],int i,int j){
-	for(int k=i+1;k<(j-1);k++){
-		int x = a[k];
-		int p = k-1;
-		while(p>=i && x<a[p]){
-			a[p+1]=a[p];
+template <class T>
+void insertion_sort(T a[], int i, int j){
+	for( int k = i + 1; k < (j - 1); k++ ) {
+		T x = a[k];
+		int p = k - 1;
+		while( p >= i && x < a[p] ) {
+			a[p+1] = a[p];
 			--p;
 		}
-		a[p+1]=x;
+		a[p+1] = x;
 	}
-	for(int b=0; b<5;b++){
-		cout<<" "<<a[b]<<" ";
-	}
-	cout<<endl;
 }
 
 template <class T>
 void partition(T a[], int start, int stop, int & pivot) {
-	std::swap(a[pivot], a[start]);
+	T temp2 = a[start];
+	a[start] = a[pivot];
+	a[pivot] = temp2;
 		//puts pivot in fist position
 	T * temp = new T[stop - start];
 	int k = 0;
@@ -82,20 +81,11 @@ void partition(T a[], int start, int stop, int & pivot) {
 			--e;
 			++b;
 		}
-		for( int i = start; i < stop; i++ ) {
-			cout << temp[i] << " ";
-		}
-		cout << "BREAK" << endl;
 	}
 	temp[k] = a[start];
 	pivot = start + k;
 	//++k;
 	++b;
-	for( int i = start; i < stop; i++ ) {
-			cout << temp[i] << " ";
-		}
-		cout << "it done been yeeted" << endl;
-	
 	std::copy(temp, temp + b, a + start);
 	delete temp;
 }
@@ -103,11 +93,8 @@ void partition(T a[], int start, int stop, int & pivot) {
 template <class T>
 void quicksort (T a[], int start, int stop) {
 	if (stop - start > 1) {
-		//int pivot = start + 1;
-		srand(time(NULL));
-		int pivot = rand() % ( stop - start ) + start;
-		cout << start  << endl;
-		cout << "This shit be the pivot = " << pivot << endl;
+		int pivot = start + rand() % (stop - start);
+		//srand(time(NULL));
 		partition(a, start, stop, pivot);
 		cout << endl;
 		quicksort(a, start, pivot);
@@ -123,7 +110,7 @@ void mergesort(T a[], int start, int stop) {
 		mergesort(a, start, middle);
 		mergesort(a, middle, stop);
 
-		std::inplace_merge(a + start, a + middle, a + stop);
+		merge( a, start, middle, stop );
 	}
 }
 
@@ -147,14 +134,15 @@ void merge(T a[], int start, int middle, int stop) {
 		}
 		++j;
 	}
-	delete [] result;
 }
 
 template <class T>
 void selection_sort(T a[], int start, int stop) {
 	while (stop - start > 1) {
 		auto itr_max = std::max_element(a + start, a + stop);
-		std::swap(*itr_max, a[stop-1]);
+		Integer temp = a[stop-1];
+		a[stop-1] = *itr_max;
+		*itr_max = temp;
 		--stop;
 	}
 }
@@ -164,25 +152,21 @@ void inPlacePartition(T a[], int i, int j, int & k) {
     int p = i; //smaller region
     int q = i; //larger region
     int r = j - 1; //pivot to be
-    swap(a[k], a[r]);
-    cout << "pivot " << a[r] << endl;
+    T temp = a[r];
+    a[r] = a[k];
+    a[k] = temp;
     while(q < r) {
-        if(a[q] <= a[r]) {
-            swap(a[p], a[q]);
+        if(a[q].value() <= a[r].value()) {
+	    T temp3 = a[q];
+	    a[q] = a[p];
+	    a[p] = temp3;
             ++p;
         }
         ++q;
     }
-    cout << "p " << p << "   q" << q << endl;
-    for(int g = i; g < j; g++)
-        cout << a[g] << " ";
-    cout << endl;
-
-    swap(a[p], a[r]);
-
-    for(int g = i; g < j; g++)
-        cout << a[g] << " ";
-    cout << endl;
+    T temp2 = a[r];
+    a[r] = a[p];
+    a[p] = temp2;
     k = p;
 }
 
@@ -192,15 +176,59 @@ void inPlaceQuickSort(T a[], int start, int stop) {
             int pivot = start + rand() % (stop - start);
             inPlacePartition(a, start, stop, pivot);
             inPlaceQuickSort(a, start, pivot);
-            inPlaceQuickSort(a, pivot+1, stop);
+            inPlaceQuickSort(a, pivot + 1, stop);
         }
 }
 int main(){
-	int a[5] = {52, 92, 102, 11, 99};
-	
-	for(int i = 0; i < 5; i++) {
-		cout << " " <<  a[i];
+
+	//1-n array
+	Integer a[n];
+	for( int i = 0; i < n; i++ ) {
+		Integer replace(i + 1);
+		a[i] = replace;
 	}
+
+	//reverse array
+	Integer b[n];
+	int start = 0;
+	int stop = n-1;
+	while ( start < stop ) {
+		b[start] = a[stop];
+		b[stop] = a[start];	
+		start++;
+		stop--;
+	}	
+
+	//random array 1
+	Integer c[n];
+	for( int i = 0; i < n; i++ ) {
+		Integer replace(rand() % n);
+		c[i] = replace;
+	}
+
+	//random array 2
+	Integer d[n];
+	for( int i = 0; i < n; i++ ) {
+		Integer replace(rand() % n);
+		d[i] = replace;
+	}
+
+	//random array 3
+	Integer e[n];
+	for( int i = 0; i < n; i++ ) {
+		Integer replace(rand() % n);
+		e[i] = replace;
+	}
+
+	int f[5] = {2,1,3,4,5};
+
+	//The sorting algorithms
+	quicksort( a, 0, n);
+	int sum = 0;
+	for( int i = 0; i < n; i++ ) {
+		sum += a[i].get();
+	}
+	cout << sum;
 	cout << endl;
 	return 0;
 }
