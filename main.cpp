@@ -29,7 +29,7 @@ public:
 	bool operator<(const Integer & y)const{
 		//IntegerConstructor((Integer_count)+1);
 		//Integer_count++;
-		this->increment();
+		//this->increment();
 		//const int yval=y.value();
 		if(Integer_value<y.Integer_value){return true;}
 		else{return false;}
