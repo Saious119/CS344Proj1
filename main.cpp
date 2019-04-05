@@ -48,63 +48,15 @@ public:
 };
 
 template <class T>
-void selection_sort(T a[], int start, int stop) {
-	while (stop - start > 1) {
-		auto itr_max = std::max_element(a + start, a + stop);
-		std::swap(*itr_max, a[stop-1]);
-		--stop;
-	}
-}
-
-template <class T>
-void insertion_sort(T a[5], int i, int j){
+void insertion_sort(T a[], int i, int j){
 	for( int k = i + 1; k < (j - 1); k++ ) {
-		int x = a[k];
+		T x = a[k];
 		int p = k - 1;
 		while( p >= i && x < a[p] ) {
 			a[p+1] = a[p];
 			--p;
 		}
 		a[p+1] = x;
-	}
-	for( int b = 0; b < 5; b++ ){
-		cout << " " << a[b] << " ";
-	}
-	cout << endl;
-}
-
-template <class T>
-void merge(T a[], int start, int middle, int stop) {
-	int i1 = start;
-
-	int i2 = middle;
-
-	T * result = new T[stop - start];
-
-	int j = 0;
-
-	while (i1 < middle && i2 < stop) {
-		if (a[i1] < a[i2]) {
-			result[j] = a[i1];
-			++i1;
-		} else {
-			result[j] = a[i2];
-			++i2;
-		}
-		++j;
-	}
-	delete [] result;
-}
-
-template <class T>
-void mergesort(T a[], int start, int stop) {
-	if (stop - start > 1) {
-		int middle = (start + stop) / 2;
-
-		mergesort(a, start, middle);
-		mergesort(a, middle, stop);
-
-		std::inplace_merge(a + start, a + middle, a + stop);
 	}
 }
 
@@ -139,11 +91,10 @@ void partition(T a[], int start, int stop, int & pivot) {
 }
 
 template <class T>
-void firstquicksort (T a[], int start, int stop) {
+void quicksort (T a[], int start, int stop) {
 	if (stop - start > 1) {
-		int pivot = start + 1;
-		cout << start  << endl;
-		cout << "This shit be the pivot = " << pivot << endl;
+		int pivot = start + rand() % (stop - start);
+		//srand(time(NULL));
 		partition(a, start, stop, pivot);
 		cout << endl;
 		quicksort(a, start, pivot);
@@ -152,16 +103,47 @@ void firstquicksort (T a[], int start, int stop) {
 }
 
 template <class T>
-void randquicksort (T a[], int start, int stop) {
+void mergesort(T a[], int start, int stop) {
 	if (stop - start > 1) {
-		srand(time(NULL));
-		int pivot = rand() % ( stop - start ) + start;
-		cout << start  << endl;
-		cout << "This shit be the pivot = " << pivot << endl;
-		partition(a, start, stop, pivot);
-		cout << endl;
-		quicksort(a, start, pivot);
-		quicksort(a, pivot + 1, stop);
+		int middle = (start + stop) / 2;
+
+		mergesort(a, start, middle);
+		mergesort(a, middle, stop);
+
+		merge( a, start, middle, stop );
+	}
+}
+
+template <class T>
+void merge(T a[], int start, int middle, int stop) {
+	int i1 = start;
+
+	int i2 = middle;
+
+	T * result = new T[stop - start];
+
+	int j = 0;
+	
+	while (i1 < middle && i2 < stop) {
+		if (a[i1] < a[i2]) {
+			result[j] = a[i1];
+			++i1;
+		} else {
+			result[j] = a[i2];
+			++i2;
+		}
+		++j;
+	}
+}
+
+template <class T>
+void selection_sort(T a[], int start, int stop) {
+	while (stop - start > 1) {
+		auto itr_max = std::max_element(a + start, a + stop);
+		Integer temp = a[stop-1];
+		a[stop-1] = *itr_max;
+		*itr_max = temp;
+		--stop;
 	}
 }
 
@@ -197,18 +179,56 @@ void inPlaceQuickSort(T a[], int start, int stop) {
             inPlaceQuickSort(a, pivot + 1, stop);
         }
 }
-
 int main(){
-	int a[5] = {52, 92, 102, 11, 99};
-	Integer yeet(5);
-	Integer yoot(0);
 
-	if (yoot < yeet) {
-		cout << yoot.value();
+	//1-n array
+	Integer a[n];
+	for( int i = 0; i < n; i++ ) {
+		Integer replace(i + 1);
+		a[i] = replace;
 	}
-	//for(int i = 0; i < 5; i++) {
-	//	cout << " " <<  a[i];
-	//}
-	//cout << endl;
+
+	//reverse array
+	Integer b[n];
+	int start = 0;
+	int stop = n-1;
+	while ( start < stop ) {
+		b[start] = a[stop];
+		b[stop] = a[start];	
+		start++;
+		stop--;
+	}	
+
+	//random array 1
+	Integer c[n];
+	for( int i = 0; i < n; i++ ) {
+		Integer replace(rand() % n);
+		c[i] = replace;
+	}
+
+	//random array 2
+	Integer d[n];
+	for( int i = 0; i < n; i++ ) {
+		Integer replace(rand() % n);
+		d[i] = replace;
+	}
+
+	//random array 3
+	Integer e[n];
+	for( int i = 0; i < n; i++ ) {
+		Integer replace(rand() % n);
+		e[i] = replace;
+	}
+
+	int f[5] = {2,1,3,4,5};
+
+	//The sorting algorithms
+	quicksort( a, 0, n);
+	int sum = 0;
+	for( int i = 0; i < n; i++ ) {
+		sum += a[i].get();
+	}
+	cout << sum;
+	cout << endl;
 	return 0;
 }
