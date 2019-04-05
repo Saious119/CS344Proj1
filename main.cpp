@@ -42,7 +42,17 @@ public:
 	}
 };
 
-int insertion_sort(int a[5], int i, int j){
+template <class T>
+void selection_sort(T a[], int start, int stop) {
+	while (stop - start > 1) {
+		auto itr_max = std::max_element(a + start, a + stop);
+		std::swap(*itr_max, a[stop-1]);
+		--stop;
+	}
+}
+
+template <class T>
+void insertion_sort(T a[5], int i, int j){
 	for( int k = i + 1; k < (j - 1); k++ ) {
 		int x = a[k];
 		int p = k - 1;
@@ -56,6 +66,41 @@ int insertion_sort(int a[5], int i, int j){
 		cout << " " << a[b] << " ";
 	}
 	cout << endl;
+}
+
+template <class T>
+void merge(T a[], int start, int middle, int stop) {
+	int i1 = start;
+
+	int i2 = middle;
+
+	T * result = new T[stop - start];
+
+	int j = 0;
+	
+	while (i1 < middle && i2 < stop) {
+		if (a[i1] < a[i2]) {
+			result[j] = a[i1];
+			++i1;
+		} else {
+			result[j] = a[i2];
+			++i2;
+		}
+		++j;
+	}
+	delete [] result;
+}
+
+template <class T>
+void mergesort(T a[], int start, int stop) {
+	if (stop - start > 1) {
+		int middle = (start + stop) / 2;
+
+		mergesort(a, start, middle);
+		mergesort(a, middle, stop);
+
+		std::inplace_merge(a + start, a + middle, a + stop);
+	}
 }
 
 template <class T>
@@ -96,11 +141,9 @@ void partition(T a[], int start, int stop, int & pivot) {
 }
 
 template <class T>
-void quicksort (T a[], int start, int stop) {
+void firstquicksort (T a[], int start, int stop) {
 	if (stop - start > 1) {
-		//int pivot = start + 1;
-		srand(time(NULL));
-		int pivot = rand() % ( stop - start ) + start;
+		int pivot = start + 1;
 		cout << start  << endl;
 		cout << "This shit be the pivot = " << pivot << endl;
 		partition(a, start, stop, pivot);
@@ -111,46 +154,16 @@ void quicksort (T a[], int start, int stop) {
 }
 
 template <class T>
-void mergesort(T a[], int start, int stop) {
+void randquicksort (T a[], int start, int stop) {
 	if (stop - start > 1) {
-		int middle = (start + stop) / 2;
-
-		mergesort(a, start, middle);
-		mergesort(a, middle, stop);
-
-		std::inplace_merge(a + start, a + middle, a + stop);
-	}
-}
-
-template <class T>
-void merge(T a[], int start, int middle, int stop) {
-	int i1 = start;
-
-	int i2 = middle;
-
-	T * result = new T[stop - start];
-
-	int j = 0;
-	
-	while (i1 < middle && i2 < stop) {
-		if (a[i1] < a[i2]) {
-			result[j] = a[i1];
-			++i1;
-		} else {
-			result[j] = a[i2];
-			++i2;
-		}
-		++j;
-	}
-	delete [] result;
-}
-
-template <class T>
-void selection_sort(T a[], int start, int stop) {
-	while (stop - start > 1) {
-		auto itr_max = std::max_element(a + start, a + stop);
-		std::swap(*itr_max, a[stop-1]);
-		--stop;
+		srand(time(NULL));
+		int pivot = rand() % ( stop - start ) + start;
+		cout << start  << endl;
+		cout << "This shit be the pivot = " << pivot << endl;
+		partition(a, start, stop, pivot);
+		cout << endl;
+		quicksort(a, start, pivot);
+		quicksort(a, pivot + 1, stop);
 	}
 }
 
@@ -190,6 +203,7 @@ void inPlaceQuickSort(T a[], int start, int stop) {
             inPlaceQuickSort(a, pivot + 1, stop);
         }
 }
+
 int main(){
 	int a[5] = {52, 92, 102, 11, 99};
 	Integer yeet(5);
