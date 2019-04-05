@@ -158,6 +158,42 @@ void selection_sort(T a[], int start, int stop) {
 	}
 }
 
+template <class T>
+void inPlacePartition(T a[], int i, int j, int & k) {
+    int p = i; //smaller region
+    int q = i; //larger region
+    int r = j - 1; //pivot to be
+    swap(a[k], a[r]);
+    cout << "pivot " << a[r] << endl;
+    while(q < r) {
+        if(a[q] <= a[r]) {
+            swap(a[p], a[q]);
+            ++p;
+        }
+        ++q;
+    }
+    cout << "p " << p << "   q" << q << endl;
+    for(int g = i; g < j; g++)
+        cout << a[g] << " ";
+    cout << endl;
+
+    swap(a[p], a[r]);
+
+    for(int g = i; g < j; g++)
+        cout << a[g] << " ";
+    cout << endl;
+    k = p;
+}
+
+template <class T>
+void inPlaceQuickSort(T a[], int start, int stop) {
+        if( stop - start > 1) {
+            int pivot = start + rand() % (stop - start);
+            inPlacePartition(a, start, stop, pivot);
+            inPlaceQuickSort(a, start, pivot);
+            inPlaceQuickSort(a, pivot+1, stop);
+        }
+}
 int main(){
 	int a[5] = {52, 92, 102, 11, 99};
 	
