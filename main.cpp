@@ -42,20 +42,20 @@ public:
 	}
 };
 
-int insertion_sort(int a[5],int i,int j){
-	for(int k=i+1;k<(j-1);k++){
+int insertion_sort(int a[5], int i, int j){
+	for( int k = i + 1; k < (j - 1); k++ ) {
 		int x = a[k];
-		int p = k-1;
-		while(p>=i && x<a[p]){
-			a[p+1]=a[p];
+		int p = k - 1;
+		while( p >= i && x < a[p] ) {
+			a[p+1] = a[p];
 			--p;
 		}
-		a[p+1]=x;
+		a[p+1] = x;
 	}
-	for(int b=0; b<5;b++){
-		cout<<" "<<a[b]<<" ";
+	for( int b = 0; b < 5; b++ ){
+		cout << " " << a[b] << " ";
 	}
-	cout<<endl;
+	cout << endl;
 }
 
 template <class T>
@@ -187,7 +187,7 @@ void inPlaceQuickSort(T a[], int start, int stop) {
             int pivot = start + rand() % (stop - start);
             inPlacePartition(a, start, stop, pivot);
             inPlaceQuickSort(a, start, pivot);
-            inPlaceQuickSort(a, pivot+1, stop);
+            inPlaceQuickSort(a, pivot + 1, stop);
         }
 }
 int main(){
