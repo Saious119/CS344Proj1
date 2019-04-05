@@ -10,6 +10,10 @@
 using namespace std;
 
 class Integer{
+private:
+	mutable int Integer_count = 0;
+	int Integer_value;
+
 public:
 	Integer() {
 		Integer_value = 0;
@@ -25,26 +29,17 @@ public:
 	const int value(){
 		return this->Integer_value;
 	}
-	void increment(){
-		this ->Integer_count++;
-	}
-	bool operator<(const Integer & y)const{
-		//IntegerConstructor((Integer_count)+1);
-		//Integer_count++;
-		//this->increment();
-		//const int yval=y.value();
-		if(Integer_value<y.Integer_value){return true;}
-		else{return false;}
+	bool operator<(const Integer & y) const {
+		Integer_count++;
+		if (Integer_value < y.Integer_value) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	Integer& operator =(Integer& y){
-		//this->Integer_count++;
-		//this->value()=y.value();
 		this->copy(y);
 	}
-
-private:
-	int Integer_count = 0;
-	int Integer_value;
 };
 
 int insertion_sort(int a[5],int i,int j){
@@ -197,10 +192,15 @@ void inPlaceQuickSort(T a[], int start, int stop) {
 }
 int main(){
 	int a[5] = {52, 92, 102, 11, 99};
-	
-	for(int i = 0; i < 5; i++) {
-		cout << " " <<  a[i];
-	}
-	cout << endl;
+	Integer yeet(5);
+	Integer yoot(0);
+
+	if (yoot < yeet) {
+		cout << yoot.value();
+	}	
+	//for(int i = 0; i < 5; i++) {
+	//	cout << " " <<  a[i];
+	//}
+	//cout << endl;
 	return 0;
 }
